@@ -19,18 +19,18 @@ def calcular_dose_maxima(sal_anestesico, concentracao, peso, vasoconstritor=None
     }
 
     observacoes = {
-        'lidocaina': "🟢 **Lidocaína**\nMetabolizada no fígado e excretada pelos rins.",
-        'mepivacaina': "🟡 **Mepivacaína**\nMetabolizada no fígado e excretada pelos rins.",
-        'prilocaina': "🔴 **Prilocaína**\nMetabolizada no fígado, rins e no pulmão.\n⚠️ *Risco de Metemoglobinemia.*",
-        'articaina': "🟣 **Articaína**\nCaracterísticas amida e éster; Metabolizada no fígado e no plasma.\n⚠️ *Risco aumentado de parestesia e Metemoglobinemia.*",
-        'bupivacaina': "🔵 **Bupivacaína**\nMetabolizada no fígado e excretada nos rins.\n⚠️ *Cardiotóxica.*",
+        'lidocaina': "🟢 **Lidocaína**\n💠 Metabolizada no fígado\n💠 Excretada pelos rins.",
+        'mepivacaina': "🟡 **Mepivacaína**\n💠 Metabolizada no fígado\n💠 Excretada pelos rins.",
+        'prilocaina': "🔴 **Prilocaína**\n💠 Metabolizada no fígado, rins e pulmão\n⚠️ *Risco de Metemoglobinemia.*",
+        'articaina': "🟣 **Articaína**\n💠 Características amida e éster\n💠 Metabolizada no fígado e plasma\n⚠️ *Risco aumentado de parestesia e Metemoglobinemia.*",
+        'bupivacaina': "🔵 **Bupivacaína**\n💠 Metabolizada no fígado\n💠 Excretada nos rins\n⚠️ *Cardiotóxica.*",
     }
 
     vasoconstritor_observacoes = {
-        'epinefrina': "💉 **Adrenalina**\n🔺 Aumento da PA e consumo de O2\nDilatação dos bronquíolos\nAumento da glicose.",
-        'noradrenalina': "💉 **Noradrenalina**\n🔹 Redução da frequência cardíaca\nVasoconstrição prolongada\nAumento da PA.",
-        'fenilefrina': "💉 **Fenilefrina**\n🔸 Pouco efeito sobre o coração\nVasoconstrição prolongada\nAumento da PA.",
-        'felipressina': "💉 **Felipressina**\n⚠️ Reduz fluxo sanguíneo coronariano\nAção ocitócica - *contraindicada em gestantes.*"
+        'epinefrina': "💉 **Adrenalina**\n📈  Aumento da PA e consumo de O2\n🫁 Dilatação dos bronquíolos\n🍬 Aumento da glicose.",
+        'noradrenalina': "💉 **Noradrenalina**\n🩸 Vasoconstrição prolongada\n📈  Aumento da PA.",
+        'fenilefrina': "💉 **Fenilefrina**\n🔸 Pouco efeito sobre o coração\n🩸 Vasoconstrição prolongada\n📈  Aumento da PA.",
+        'felipressina': "💉 **Felipressina**\n⚠️ Reduz fluxo sanguíneo coronariano\n⚠️ Ação ocitócica - * 🔴🤰contraindicada em gestantes.*"
     }
 
     if peso > 80:
