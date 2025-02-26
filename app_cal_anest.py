@@ -19,18 +19,18 @@ def calcular_dose_maxima(sal_anestesico, concentracao, peso, vasoconstritor=None
     }
 
     observacoes = {
-        'lidocaina': "🟢 **Lidocaína**: Metabolizada no fígado e excretada pelos rins.",
-        'mepivacaina': "🟡 **Mepivacaína**: Metabolizada no fígado e excretada pelos rins.",
-        'prilocaina': "🔴 **Prilocaína**: Metabolizada no fígado, rins e no pulmão. ⚠️ *Risco de Metemoglobinemia.*",
-        'articaina': "🟣 **Articaína**: Características amida e éster; Metabolizada no fígado e no plasma. ⚠️ *Risco aumentado de parestesia e Metemoglobinemia.*",
-        'bupivacaina': "🔵 **Bupivacaína**: Metabolizada no fígado e excretada nos rins. ⚠️ *Cardiotóxica.*",
+        'lidocaina': "🟢 **Lidocaína**\nMetabolizada no fígado e excretada pelos rins.",
+        'mepivacaina': "🟡 **Mepivacaína**\nMetabolizada no fígado e excretada pelos rins.",
+        'prilocaina': "🔴 **Prilocaína**\nMetabolizada no fígado, rins e no pulmão.\n⚠️ *Risco de Metemoglobinemia.*",
+        'articaina': "🟣 **Articaína**\nCaracterísticas amida e éster; Metabolizada no fígado e no plasma.\n⚠️ *Risco aumentado de parestesia e Metemoglobinemia.*",
+        'bupivacaina': "🔵 **Bupivacaína**\nMetabolizada no fígado e excretada nos rins.\n⚠️ *Cardiotóxica.*",
     }
 
     vasoconstritor_observacoes = {
-        'epinefrina': "💉 **Adrenalina**: 🔺 Aumento da PA e consumo de O2, dilatação dos bronquíolos, aumento da glicose.",
-        'noradrenalina': "💉 **Noradrenalina**: 🔹 Redução da frequência cardíaca, vasoconstrição prolongada, aumento da PA.",
-        'fenilefrina': "💉 **Fenilefrina**: 🔸 Pouco efeito sobre o coração, vasoconstrição prolongada, aumento da PA.",
-        'felipressina': "💉 **Felipressina**: ⚠️ Reduz fluxo sanguíneo coronariano, ação ocitócica - *contraindicada em gestantes.*"
+        'epinefrina': "💉 **Adrenalina**\n🔺 Aumento da PA e consumo de O2\nDilatação dos bronquíolos\nAumento da glicose.",
+        'noradrenalina': "💉 **Noradrenalina**\n🔹 Redução da frequência cardíaca\nVasoconstrição prolongada\nAumento da PA.",
+        'fenilefrina': "💉 **Fenilefrina**\n🔸 Pouco efeito sobre o coração\nVasoconstrição prolongada\nAumento da PA.",
+        'felipressina': "💉 **Felipressina**\n⚠️ Reduz fluxo sanguíneo coronariano\nAção ocitócica - *contraindicada em gestantes.*"
     }
 
     if peso > 80:
@@ -51,19 +51,20 @@ def calcular_dose_maxima(sal_anestesico, concentracao, peso, vasoconstritor=None
         numero_de_tubetes = min(numero_de_tubetes, vasoconstritores[vasoconstritor].get(asa, float('inf')))
 
     obs = observacoes.get(sal_anestesico, "")
+    vaso_obs = ""
     for key, value in vasoconstritor_observacoes.items():
         if key in (vasoconstritor or "").lower():
-            obs += "\n" + value
+            vaso_obs = value
             break
 
-    return dose_maxima_mg, int(numero_de_tubetes), obs
+    return dose_maxima_mg, int(numero_de_tubetes), obs, vaso_obs
 
 st.title("🦷 Calculadora de Dose Máxima de Anestésico Local")
 st.markdown("---")
 
 sal_anestesico = st.selectbox("**Selecione o Sal Anestésico:**", ['lidocaina', 'mepivacaina', 'prilocaina', 'articaina', 'bupivacaina'])
 concentracao = st.selectbox("**Selecione a Concentração:**", {'lidocaina': ['2%', '3%'], 'mepivacaina': ['3%', '2%'], 'prilocaina': ['3%', '4%'], 'articaina': ['4%'], 'bupivacaina': ['0.5%']}.get(sal_anestesico, []))
-peso = st.slider("**Peso do Paciente (kg):**", min_value=1, max_value=80, value=70)
+peso = st.number_input("**Peso do Paciente (kg):**", min_value=1, max_value=80, value=70)
 vasoconstritor = st.selectbox("**Selecione o Vasoconstritor:**", ['Nenhum', '1:50000 epinefrina', '1:100000 epinefrina', '1:200000 epinefrina', '1:30000 noradrenalina', '1:2500 fenilefrina', '0.03UI/ml felipressina'])
 asa = st.selectbox("**Classificação ASA:**", ['ASA I/II', 'ASA III/IV']) if vasoconstritor != "Nenhum" else None
 
@@ -72,7 +73,9 @@ if st.button("💉 Calcular Dose Máxima"):
     if isinstance(resultado, str):
         st.error(resultado)
     else:
-        dose_maxima_mg, numero_de_tubetes, obs = resultado
+        dose_maxima_mg, numero_de_tubetes, obs, vaso_obs = resultado
         st.success(f"### 💊 Dose Máxima: {dose_maxima_mg:.2f} mg\n### 💉 Número Máximo de Tubetes: {numero_de_tubetes}")
-        st.markdown(f"**📌 Informações sobre os agentes selecionados:**\n{obs}")
+        st.markdown(f"**📌 Informações sobre o Sal Anestésico:**\n{obs}")
+        if vaso_obs:
+            st.markdown(f"**📌 Informações sobre o Vasoconstritor:**\n{vaso_obs}")
         st.caption("📖 Referência: Manual de anestesia local / Stanley F. Malamed; [tradução Fernando Mundim...et al.]. Rio de Janeiro: Elsevier, 2013.")
